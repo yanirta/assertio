@@ -1,0 +1,217 @@
+openapi: 3.0.0
+info:
+  description: Distributed assertion library
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Assertio - Assertion library API
+  version: 0.0.1
+servers:
+- description: assertio server
+  url: '{protocol}://{server}:8080/api/0.0.1/'
+  variables:
+    protocol:
+      default: http
+      enum:
+      - http
+      - https
+    server:
+      default: localhost
+security:
+- bearerAuth: []
+paths:
+  /check:
+    post:
+      operationId: check_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/check'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/checkResult'
+          description: Post check successful result
+        401:
+          description: Access token is missing or invalid
+        default:
+          description: Oops, something went really wrong...
+      summary: Post check data for assertion
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /check/{id}:
+    get:
+      operationId: check_id_get
+      parameters:
+      - description: Check id to get
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/check'
+          description: Get check result
+        401:
+          description: Access token is missing or invalid
+        default:
+          description: Oops, something went really wrong...
+      summary: Get check
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /history:
+    get:
+      operationId: history_get
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/arrayOfChecks'
+          description: Get historic results
+        401:
+          description: Access token is missing or invalid
+        default:
+          description: Oops, something went really wrong...
+      summary: Get check
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+components:
+  responses:
+    historyGetResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/arrayOfChecks'
+      description: Get historic results
+    checkGetResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/check'
+      description: Get check result
+    checkPostResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/checkResult'
+      description: Post check successful result
+    unauthorizedError:
+      description: Access token is missing or invalid
+    generalError:
+      description: Oops, something went really wrong...
+  schemas:
+    check:
+      example:
+        uname: uname
+        rightCompareObj:
+          key: ""
+        identifiers:
+        - value: value
+          key: key
+        - value: value
+          key: key
+        leftCompareObj:
+          key: ""
+        operator: equals
+        timestamp: 2000-01-23T04:56:07.000+00:00
+        tags:
+        - value: value
+          key: key
+        - value: value
+          key: key
+      properties:
+        timestamp:
+          format: date-time
+          type: string
+        identifiers:
+          description: An array of ordered static* identifiers that in combination
+            with the checkUName used as a unique record identifiers. <br> *Static
+            refers to the fact the identifiers will remain in the same order, unless
+            there's a desired change.
+          items:
+            $ref: '#/components/schemas/identifier'
+          type: array
+        tags:
+          description: Non-unique identifiers (tags) for the check that can be searched
+            by.
+          items:
+            $ref: '#/components/schemas/tag'
+          type: array
+        leftCompareObj:
+          additionalProperties: {}
+          description: Actual result
+          type: object
+        rightCompareObj:
+          additionalProperties: {}
+          description: Expected result
+          type: object
+        operator:
+          default: equals
+          description: Comparison operator, from left to right, when order matters.
+          enum:
+          - equals
+          - notequals
+          - greaterthan
+          - lowerthan
+          - contains
+          - notcontains
+          type: string
+        uname:
+          description: Check unique name (used as id)
+          type: string
+      required:
+      - rightCompareObj
+      - uname
+      type: object
+    arrayOfChecks:
+      items:
+        $ref: '#/components/schemas/check'
+      type: array
+    checkResult:
+      example:
+        message: Expected to 5 but got 6
+        status: Failed
+      properties:
+        status:
+          enum:
+          - Passed
+          - Failed
+          - Warning
+          example: Failed
+          type: string
+        message:
+          example: Expected to 5 but got 6
+          type: string
+      type: object
+    identifier:
+      example:
+        value: value
+        key: key
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      type: object
+    tag:
+      example:
+        value: value
+        key: key
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      type: object
+  securitySchemes:
+    bearerAuth:
+      scheme: bearer
+      type: http
+      x-bearerInfoFunc: openapi_server.controllers.security_controller_.info_from_bearerAuth

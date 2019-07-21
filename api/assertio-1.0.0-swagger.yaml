@@ -1,0 +1,157 @@
+openapi: 3.0.0
+info:
+  title: Assertio - Assertion library API
+  description: Distributed assertion library
+  version: "0.0.1"
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+- url: https://localhost:8080
+- description: assertio server
+  url: '{protocol}://{server}:8080/api/0.0.1/'
+  variables:
+    protocol:
+      enum:
+        - http
+        - https
+      default: http
+    server:
+      default: localhost
+paths:
+  /history:
+    get:
+      summary: Get check
+      responses:
+        '200':
+          $ref: '#/components/responses/historyGetResponse'
+        '401':
+          $ref: '#/components/responses/unauthorizedError'
+        default:
+          $ref: '#/components/responses/generalError'
+  /check/{id}:
+    get:
+      summary: Get check
+      responses:
+        '200':
+          $ref: '#/components/responses/checkGetResponse'
+        '401':
+          $ref: '#/components/responses/unauthorizedError'
+        default:
+          $ref: '#/components/responses/generalError'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+              type: string
+          description: Check id to get
+  /check:
+    post:
+      summary: Post check data for assertion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/check'
+      responses:
+        '200': 
+          $ref: '#/components/responses/checkPostResponse'
+        '401':
+          $ref: '#/components/responses/unauthorizedError'
+        default:
+          $ref: '#/components/responses/generalError'
+components:
+  schemas:
+    check:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        identifiers: #for project, suite, test and other unique identifiers that together create a unique identifier
+          type: array
+          description: An array of ordered static* identifiers that in combination with the checkUName used as a unique record identifiers. <br> *Static refers to the fact the identifiers will remain in the same order, unless there's a desired change.
+          items:
+            $ref: '#/components/schemas/identifier'
+        tags:
+         type: array
+         description: Non-unique identifiers (tags) for the check that can be searched by.
+         items:
+          $ref: '#/components/schemas/tag'
+        leftCompareObj:
+          type: object
+          additionalProperties: {}
+          description: Actual result
+        rightCompareObj:
+          type: object
+          additionalProperties: {}
+          description: Expected result
+        operator:
+          type: string
+          enum: [equals, notequals, greaterthan, lowerthan, contains, notcontains]
+          description: Comparison operator, from left to right, when order matters.
+          default: equals
+        uname:
+          description: Check unique name (used as id)
+          type: string
+      required: 
+        - uname
+        - rightCompareObj
+    arrayOfChecks:
+      type: array
+      items:
+        $ref: '#/components/schemas/check'
+    checkResult:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [Passed, Failed, Warning]
+          example: Failed
+        message:
+          type: string
+          example: Expected to 5 but got 6
+    identifier:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    tag:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+  responses:
+    historyGetResponse:
+      description: Get historic results
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/arrayOfChecks'
+    checkGetResponse:
+      description: Get check result
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/check'
+    checkPostResponse:
+      description: Post check successful result
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/checkResult'
+    unauthorizedError:
+      description: Access token is missing or invalid
+    generalError:
+      description: Oops, something went really wrong...
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: []
