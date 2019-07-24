@@ -14,23 +14,37 @@
         and receive assertion status in realtime
     </description>
     <url>https://github.com/yanirta/assertio</url>
+
     <licenses>
         <license>
             <name>MIT License</name>
             <url>http://www.opensource.org/licenses/mit-license.php</url>
         </license>
     </licenses>
+
     <developers>
         <developer>
             <name>Yanir Taflev</name>
             <email>6667420+yanirta@users.noreply.github.com</email>
         </developer>
     </developers>
+
     <scm>
         <connection>scm:git:https://github.com/yanirta/assertio.git</connection>
         <developerConnection>scm:git:https://github.com/yanirta/assertio.git</developerConnection>
         <url>https://github.com/yanirta/assertio</url>
     </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -75,6 +89,7 @@
             <version>${threetenbp-version}</version>
         </dependency>
     </dependencies>
+
     <properties>
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -89,8 +104,41 @@
         <junit-version>4.12</junit-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <build>
+        <!--        <resources>-->
+        <!--            <resource>-->
+        <!--                <includes>-->
+        <!--                    <include>assertio-openapi/src/main/java/**/*.java</include>-->
+        <!--                </includes>-->
+        <!--            </resource>-->
+        <!--            <resource>-->
+        <!--                <includes>-->
+        <!--                    <include>src/main/java/**/*.java</include>-->
+        <!--                </includes>-->
+        <!--            </resource>-->
+        <!--        </resources>-->
+        <!--        <sourceDirectory>.</sourceDirectory>-->
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.12</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>assertio-openapi/src/main/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -98,6 +146,10 @@
                 <configuration>
                     <source>8</source>
                     <target>8</target>
+                    <!--                    <includes>-->
+                    <!--                        <include>src/main/java/**/*.java</include>-->
+                    <!--                        <include>assertio-openapi/src/main/java/**/*.java</include>-->
+                    <!--                    </includes>-->
                 </configuration>
             </plugin>
             <plugin>
@@ -117,6 +169,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.9.1</version>
+                <configuration>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -129,7 +184,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
+                <version>1.6</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -137,8 +192,26 @@
                         <goals>
                             <goal>sign</goal>
                         </goals>
+
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
             </plugin>
         </plugins>
     </build>

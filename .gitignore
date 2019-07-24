@@ -27,3 +27,4 @@ node_modules/
 .openapi-generator/
 .vscode/
 *.iml
+testers/
