@@ -92,6 +92,12 @@ class Validation extends Component {
             case 'notequals':
                 opIcon = 'fas fa-not-equal';
                 break;
+            case 'greaterthan':
+                    opIcon = 'fas fa-greater-than';
+                break;
+            case 'lessthan':
+                opIcon ='fas fa-less-than';
+                break;
             default:
                 break;
         }

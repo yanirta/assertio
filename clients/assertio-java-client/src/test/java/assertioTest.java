@@ -33,6 +33,13 @@ public class assertioTest {
         assertion.assertNotEquals(new byte[]{'a', 'b', 'c'}, new byte[]{'a', 'b', 'd'}, "Byte arrays should match");
         assertion.assertNotEquals(new char[]{'a', 'b', 'c', 'd'}, new char[]{'a', 'b', 'c'}, "Char arrays should match");
         assertion.assertNotEquals(new boolean[]{true, false}, new boolean[]{true, true, false}, "Bool arrays should match");
+
+        assertion.assertGreater(1000, 0, "1000 should be greater than 0");
+        assertion.assertGreater(0.1, 0.01, "0.1 should be greater than 0.01");
+
+        assertion.assertLower(0, 1000, "1000 should be lower than 0");
+        assertion.assertLower(0.01, 0.1, "0.01 should be lower than 0.1");
+
     }
 
     @Test(expected = ValidationFailedException.class)

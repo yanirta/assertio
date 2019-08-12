@@ -28,6 +28,14 @@ public class assertio {
         validate(left, right, Check.OperatorEnum.NOTEQUALS, checkId);
     }
 
+    public void assertGreater(Number left, Number right, String checkId) {
+        validate(left, right, Check.OperatorEnum.GREATERTHAN, checkId);
+    }
+
+    public void assertLower(Number left, Number right, String checkId) {
+        validate(left, right, Check.OperatorEnum.LESSTHAN, checkId);
+    }
+
     private void validate(Object left, Object right, Check.OperatorEnum op, String checkId) {
         try {
             Check check = prepcheck(left, right, op, checkId);
@@ -40,10 +48,10 @@ public class assertio {
         }
     }
 
-    private Check prepcheck(Object expected, Object actual, Check.OperatorEnum op, String checkId) {
+    private Check prepcheck(Object left, Object right, Check.OperatorEnum op, String checkId) {
         Check check = new Check();
-        if (actual != null) check.leftCompareObj(normalize(actual));
-        if (expected != null) check.rightCompareObj(normalize(expected));
+        if (left != null) check.leftCompareObj(normalize(left));
+        if (right != null) check.rightCompareObj(normalize(right));
         check.operator(op);
         check.uname(checkId);
         check.setTimestamp(OffsetDateTime.now());

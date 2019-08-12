@@ -89,7 +89,7 @@ components:
           description: Expected result
         operator:
           type: string
-          enum: [equals, notequals, greaterthan, lowerthan, contains, notcontains]
+          enum: [equals, notequals, greaterthan, lessthan, contains, notcontains]
           description: Comparison operator, from left to right, when order matters.
           default: equals
         uname:

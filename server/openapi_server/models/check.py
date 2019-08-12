@@ -211,7 +211,7 @@ class Check(Model):
         :param operator: The operator of this Check.
         :type operator: str
         """
-        allowed_values = ["equals", "notequals", "greaterthan", "lowerthan", "contains", "notcontains"]  # noqa: E501
+        allowed_values = ["equals", "notequals", "greaterthan", "lessthan", "contains", "notcontains"]  # noqa: E501
         if operator not in allowed_values:
             raise ValueError(
                 "Invalid value for `operator` ({0}), must be one of {1}"

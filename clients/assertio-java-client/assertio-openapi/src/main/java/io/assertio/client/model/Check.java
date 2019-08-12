@@ -67,7 +67,7 @@ public class Check {
     
     GREATERTHAN("greaterthan"),
     
-    LOWERTHAN("lowerthan"),
+    LESSTHAN("lessthan"),
     
     CONTAINS("contains"),
     

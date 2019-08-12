@@ -9,11 +9,11 @@ dbAdapter = TinyDbDatastoreAdapter()
 
 
 def check_post_logic(check):
-    if check.right_compare_obj:
+    if check.left_compare_obj:
         dbAdapter.upsertBase(
-            check.uname, check.identifiers, check.right_compare_obj)
+            check.uname, check.identifiers, check.left_compare_obj)
     else:
-        check.right_compare_obj = dbAdapter.getBase(
+        check.left_compare_obj = dbAdapter.getBase(
             check.uname, check.identifiers)
     left = json.dumps(check.left_compare_obj, sort_keys=True)
     right = json.dumps(check.right_compare_obj, sort_keys=True)
@@ -28,8 +28,8 @@ def calculate(left, right, operator):
     ops = {
         "equals": lambda l, r: l == r,
         "notequals": lambda l, r: l != r,
-        "greaterthan": lambda l, r: l > r,
-        "lowerthan": lambda l, r: l < r,
+        "greaterthan": lambda l, r: numeric(l) > numeric(r),
+        "lessthan": lambda l, r: numeric(l) < numeric(r),
         "contains": lambda l, r: 'not implemented yet',
         "notcontains": lambda l, r: 'not implemented yet'
     }
@@ -42,6 +42,12 @@ def calculate(left, right, operator):
     else:
         status = 'Failed'
     return status
+
+def numeric(jsonstr):
+    obj = json.loads(jsonstr)
+    if(len(obj) != 1):
+        raise "The object is not numeric"
+    return list(obj.values())[0]
 
 
 def history_get_logic():

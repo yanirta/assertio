@@ -23,7 +23,7 @@ Name | Value
 EQUALS | &quot;equals&quot;
 NOTEQUALS | &quot;notequals&quot;
 GREATERTHAN | &quot;greaterthan&quot;
-LOWERTHAN | &quot;lowerthan&quot;
+LESSTHAN | &quot;lessthan&quot;
 CONTAINS | &quot;contains&quot;
 NOTCONTAINS | &quot;notcontains&quot;
 
