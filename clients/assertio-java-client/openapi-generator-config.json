@@ -1,0 +1,6 @@
+{
+    "apiPackage": "io.assertio.generated.client.api",
+    "modelPackage": "io.assertio.generated.client.model",
+    "invokerPackage": "io.assertio.generated.client",
+    "packageName": "assertio"
+}

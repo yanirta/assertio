@@ -1,0 +1,12 @@
+# Created by .ignore support plugin (hsz.mobi)
+README.md
+.idea/
+.openapi-generator/
+gradle/
+gradlew
+gradlew.bat
+src/main/AndroidManifest.xml
+src/main/java/io/assertio/generated/.gitignore
+src/main/java/io/assertio/generated/.openapi-generator
+src/main/java/io/assertio/generated/.openapi-generator-ignore
+src/main/java/io/assertio/generated/.travis.yml
