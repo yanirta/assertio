@@ -133,10 +133,6 @@
                 <configuration>
                     <source>8</source>
                     <target>8</target>
-                    <!--                    <includes>-->
-                    <!--                        <include>src/main/java/**/*.java</include>-->
-                    <!--                        <include>io.assertio.assertio-openapi/src/main/java/**/*.java</include>-->
-                    <!--                    </includes>-->
                 </configuration>
             </plugin>
             <plugin>
