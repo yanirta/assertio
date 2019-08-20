@@ -23,18 +23,18 @@ public class assertioTest {
         assertion.assertEquals(new char[]{'a', 'b', 'c', 'd'}, new char[]{'a', 'b', 'c', 'd'}, "Char arrays should match");
         assertion.assertEquals(new boolean[]{true, true, false}, new boolean[]{true, true, false}, "Bool arrays should match");
 
-        assertion.assertNotEquals("abc", "abd", "Strings should match");
-        assertion.assertNotEquals(1, 2, "Numbers should match");
-        assertion.assertNotEquals(1.23, 1.24, "Floating numbers should match");
-        assertion.assertNotEquals(true, false, "Booleans should match");
-        assertion.assertNotEquals('a', 'b', "Chars should match");
+        assertion.assertNotEquals("abc", "abd", "Strings shouldn't match");
+        assertion.assertNotEquals(1, 2, "Numbers shouldn't match");
+        assertion.assertNotEquals(1.23, 1.24, "Floating numbers shouldn't match");
+        assertion.assertNotEquals(true, false, "Booleans shouldn't match");
+        assertion.assertNotEquals('a', 'b', "Chars shouldn't match");
 
-        assertion.assertNotEquals(new int[]{1, 2, 3}, new int[]{1, 2, 4}, "Int arrays should match");
-        assertion.assertNotEquals(new String[]{"abc", "def", "geh"}, new String[]{"abc", "def", "gehh"}, "String arrays should match");
-        assertion.assertNotEquals(new double[]{1.2, 2.3, 3.4}, new double[]{1.2, 2.3, 3.3}, "Double arrays should match");
-        assertion.assertNotEquals(new byte[]{'a', 'b', 'c'}, new byte[]{'a', 'b', 'd'}, "Byte arrays should match");
-        assertion.assertNotEquals(new char[]{'a', 'b', 'c', 'd'}, new char[]{'a', 'b', 'c'}, "Char arrays should match");
-        assertion.assertNotEquals(new boolean[]{true, false}, new boolean[]{true, true, false}, "Bool arrays should match");
+        assertion.assertNotEquals(new int[]{1, 2, 3}, new int[]{1, 2, 4}, "Int arrays shouldn't match");
+        assertion.assertNotEquals(new String[]{"abc", "def", "geh"}, new String[]{"abc", "def", "gehh"}, "String arrays shouldn't match");
+        assertion.assertNotEquals(new double[]{1.2, 2.3, 3.4}, new double[]{1.2, 2.3, 3.3}, "Double arrays shouldn't match");
+        assertion.assertNotEquals(new byte[]{'a', 'b', 'c'}, new byte[]{'a', 'b', 'd'}, "Byte arrays shouldn't match");
+        assertion.assertNotEquals(new char[]{'a', 'b', 'c', 'd'}, new char[]{'a', 'b', 'c'}, "Char arrays shouldn't match");
+        assertion.assertNotEquals(new boolean[]{true, false}, new boolean[]{true, true, false}, "Bool arrays shouldn't match");
 
         assertion.assertGreater(1000, 0, "1000 should be greater than 0");
         assertion.assertGreater(0.1, 0.01, "0.1 should be greater than 0.01");
