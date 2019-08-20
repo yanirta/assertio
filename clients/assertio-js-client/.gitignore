@@ -1,0 +1,7 @@
+.travis.yml
+node_modules/
+git_push.sh
+coverage/
+docs/
+README.md
+package-lock.json
