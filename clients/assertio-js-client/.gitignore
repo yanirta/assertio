@@ -1,7 +1,9 @@
+.DS_Store
 .travis.yml
 node_modules/
 git_push.sh
 coverage/
 docs/
+dist/
 README.md
 package-lock.json
