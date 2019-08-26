@@ -93,11 +93,9 @@ The api and the lower level of both the server and the clients were built with s
 In order to communicate directy with the api you can go to http://localhost:8080/api/0.0.1/ui after starting the server.
 
 ## The author
-
-<script type="text/javascript" src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
-<div class="LI-profile-badge"  data-version="v1" data-size="medium" data-locale="en_US" data-type="horizontal" data-theme="dark" data-vanity="yanirta"><a class="LI-simple-link" href='https://il.linkedin.com/in/yanirta?trk=profile-badge'>Yanir Taflev - freelancer consultant and developer</a></div>
-
+[Yanir Taflev - freelancer consultant and developer](https://il.linkedin.com/in/yanirta)
 Owner of [qualitalks](https://qualitalks.com) 
 [My Gihub profile](https://github.com/yanirta)
+
 ## License
 MIT
